@@ -1,0 +1,8 @@
+beautifulsoup4
+lxml
+requests
+selenium
+pandas
+matplotlib
+fake-useragent==0.1.5
+webdriver_manager

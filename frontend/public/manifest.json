@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "NextLn",
+  "version": "1.0",
+  "description": "LinkedIn Job Postings Extension",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["activeTab"]
+}
