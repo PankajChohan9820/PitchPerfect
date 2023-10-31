@@ -4,8 +4,6 @@ from fake_useragent import UserAgent
 import warnings
 
 
-# Ignore warnings
-warnings.filterwarnings("ignore")
 
 
 def get_webdriver() -> webdriver.Chrome:

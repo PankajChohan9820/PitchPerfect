@@ -28,27 +28,18 @@ def scrap_data(url) -> List[str]:
     soup = bs(driver.page_source, "html.parser")
 
     headings_and_lists = soup.find_all('strong')
-    desired_headings = ["Responsibilities", "Preferred Qualifications"]
-
     data = {}
 
     for heading in headings_and_lists:
         heading_text = heading.get_text().strip()
-        
-        # Check if the current heading is one of the desired headings
-        if heading_text in desired_headings:
-            # Extract the content under the heading
-            content = []
-            next_element = heading.find_next()
-            while next_element and next_element.name != 'strong':
-                content.append(next_element.get_text().strip())
-                next_element = next_element.find_next()
-            # Store the content in the dictionary
-            data[heading_text] = content
-    
-    # for heading, content in data.items():
-    #     print(heading)
-    #     return content
+        # Extract the content under the heading
+        content = []
+        next_element = heading.find_next()
+        while next_element and next_element.name != 'strong':
+            content.append(next_element.get_text().strip())
+            next_element = next_element.find_next()
+        # Store the content in the dictionary
+        data[heading_text] = content
 
+    print(data)
     return data["Responsibilities"]
-    
