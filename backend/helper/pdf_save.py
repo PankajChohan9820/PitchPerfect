@@ -5,7 +5,7 @@ import PyPDF2
 
 
 
-def extract_pdf(pdf_file):
+def extract_pdf(pdf_file=r'C:\Users\Pankaj\Documents\New Resume\PankajResume.pdf'):
     # Open the PDF file in read-binary mode
     with open(pdf_file, 'rb') as file:
         pdf_reader = PyPDF2.PdfReader(file)
@@ -17,4 +17,5 @@ def extract_pdf(pdf_file):
             resume_data += page.extract_text()
 
     # Now, 'resume_data' contains the text extracted from the PDF
-    print(resume_data)
+    # print(resume_data)
+    return resume_data

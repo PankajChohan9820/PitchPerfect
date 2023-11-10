@@ -1,45 +1,32 @@
-from bs4 import BeautifulSoup as bs
-import time
-import warnings
-from typing import List
+from bs4 import BeautifulSoup
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from helper.drivers import get_webdriver
 
 
-def scrap_data(url) -> List[str]:
-    """
-    Scrapes product links from the Vestiaire Collective website.
-
-    Returns:
-    - List[str]: List of product URLs.
-    """
+def scrap_data(url):
     driver = get_webdriver()
-    # Get the list of all products
-    
     driver.get(url)
-    SCROLL_PAUSE_TIME = 2  # Pause time between scrolls
-    last_height = driver.execute_script("return document.body.scrollHeight")
-    while True:
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(SCROLL_PAUSE_TIME)
-        new_height = driver.execute_script("return document.body.scrollHeight")
-        if new_height == last_height:
-            break
-        last_height = new_height
-    soup = bs(driver.page_source, "html.parser")
 
+    # Wait for the desired elements to load
+    # WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'strong')))
+    # WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, '//*')))
+    WebDriverWait(driver, 10).until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+
+
+    # Extract data directly using BeautifulSoup
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
     headings_and_lists = soup.find_all('strong')
-    data = {}
-
+    text = ''
     for heading in headings_and_lists:
-        heading_text = heading.get_text().strip()
-        # Extract the content under the heading
-        content = []
-        next_element = heading.find_next()
-        while next_element and next_element.name != 'strong':
-            content.append(next_element.get_text().strip())
-            next_element = next_element.find_next()
-        # Store the content in the dictionary
-        data[heading_text] = content
+        # Use BeautifulSoup to find the next siblings
+        next_elements = heading.find_all_next()
 
-    print(data)
-    return data["Responsibilities"]
+        for element in next_elements:
+            if element.name == 'strong':
+                break
+            text += element.get_text().strip()
+
+    driver.quit()
+    return text

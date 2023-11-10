@@ -1,9 +1,10 @@
 {
-    "extract_role": "Could you please extract the job description and requirements from the provided job details and gather all the key values that pertain to role responsibilities?",
+    "extract_role": "Could you please extract the company name, position, job description and requirements from the provided job details and gather all the key values that pertain to role responsibilities?",
     "create_cover_letter": [
         "I need assistance in crafting a compelling cover letter for a [X position] that effectively highlights my skills and experience from my resume, as well as aligns with the job description provided. Can you help me draft this cover letter?",
         "I'm applying for a [X position] and want to create a cover letter that perfectly matches the job requirements in the provided job description and draws from the key points in my resume. Can you assist me in writing this cover letter?",
         "I need to write a tailored cover letter for a [X position]. I'd like the cover letter to closely reflect the job description and incorporate my qualifications from my resume. Could you help me compose this cover letter?",
         "I'm looking for guidance in crafting a customized cover letter for a [X position]. My goal is to seamlessly integrate the job description requirements with my resume to make a compelling case for my application. Can you provide assistance in creating this cover letter?"
-    ]
+    ],
+    "test":"I need assistance in crafting a compelling cover letter for a Software Engineer that effectively highlights my skills and experience from my resume, as well as aligns with the job description and company name provided. Can you help me draft this cover letter? Below is my Job description, company name and My Resume"
 }

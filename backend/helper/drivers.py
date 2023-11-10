@@ -20,6 +20,9 @@ def get_webdriver() -> webdriver.Chrome:
         # ua.random
         user_agent = ua.random
         options = Options()
+        options.add_argument('--log-level=3')  # Set log level to suppress warnings
+        options.add_argument('--disable-logging')  # Disable logging to console
+        options.add_argument('--disable-infobars') 
         options.add_argument("no-sandbox")
         options.add_argument("--disable-extensions")
         options.add_argument("--headless")
