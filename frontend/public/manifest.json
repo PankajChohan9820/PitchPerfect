@@ -6,15 +6,15 @@
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": ["activeTab"],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["*://www.linkedin.com/*"],
-      "js": ["content.js"],
-      "run_at": "document_end"
-    }
-  ]
+  "permissions": ["activeTab"]
+  // "background": {
+  //   "service_worker": "background.js"
+  // },
+  // "content_scripts": [
+  //   {
+  //     "matches": ["*://www.linkedin.com/*"],
+  //     "js": ["content.js"],
+  //     "run_at": "document_end"
+  //   }
+  // ]
 }

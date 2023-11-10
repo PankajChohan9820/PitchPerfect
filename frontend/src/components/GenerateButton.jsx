@@ -1,42 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const GenerateButton = () => {
-  const [pageUrl, setPageUrl] = useState('');
+  const [pageUrl, setPageUrl] = useState('Hi');
+  const [cover, setCover] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // Function to make the API call
   const callAPI = async () => {
     if (!pageUrl) {
-      // Ensure that you have the URL before making the API call
       console.error('No URL available.');
       return;
     }
-
     try {
-      // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
-      console.log("pageUrl",pageUrl)
-      const response = await axios.post('YOUR_API_ENDPOINT', { url: pageUrl });
+      setLoading(true); // Set loading to true before making the API call
 
-      // Handle the response from the API
-      console.log('API response:', response.data);
+      const response = await axios.post('http://127.0.0.1:5000/scrape', { url: pageUrl });
+      setCover(response.data.data);
     } catch (error) {
       console.error('Error making API call:', error);
+    } finally {
+      setLoading(false); // Set loading to false after API call is complete
     }
   };
 
-  // Handle messages from the background script
-//   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//     if (message.action === 'setPageUrl') {
-//       // Receive the current page's URL from the background script
-//       setPageUrl(message.url);
-//     }
-//   });
+  const handleChange = (event) => {
+    setCover(event.target.value);
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+      <textarea
+        value={cover}
+        onChange={handleChange}
+        placeholder="Cover letter will be generating here"
+        style={{padding:'10px'}}
+      />
+      {loading && <p>Generating text...</p>}
       <button
         onClick={callAPI}
-        style={{ backgroundColor: '#32cdb2', color: 'white', padding: '10px', cursor: 'pointer' }}
+        style={{ backgroundColor: '#32cdb2', color: 'white', padding: '10px', cursor: 'pointer', marginTop:'10px' }}
       >
         Generate
       </button>
