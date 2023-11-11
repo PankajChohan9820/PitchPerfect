@@ -1,5 +1,5 @@
 // AuthContext.js
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
 const AuthContext = createContext();
 
@@ -67,14 +67,29 @@ const AuthProvider = ({ children }) => {
 
       const user = await response.json();
       dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+
+      // Store credentials in localStorage
+      localStorage.setItem('authCredentials', JSON.stringify({ username, password }));
     } catch (error) {
       dispatch({ type: 'LOGIN_FAILURE', payload: error.message });
     }
   };
 
   const logout = () => {
+    // Remove credentials from localStorage
+    localStorage.removeItem('authCredentials');
     dispatch({ type: 'LOGOUT' });
   };
+
+  useEffect(() => {
+    // Check for stored credentials on component mount
+    const storedCredentials = localStorage.getItem('authCredentials');
+
+    if (storedCredentials) {
+      const { username, password } = JSON.parse(storedCredentials);
+      loginAsync(username, password);
+    }
+  }, []); // Empty dependency array ensures the effect runs only once on mount
 
   return (
     <AuthContext.Provider value={{ ...state, loginAsync, logout }}>

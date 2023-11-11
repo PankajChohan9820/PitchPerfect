@@ -3,9 +3,6 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 def askgpt(question, chat_log=None):
-    # openai.api_key = os.getenv("OPENAI_API_KEY")
-    
-
     client = OpenAI(
     api_key=os.getenv('OPENAI_KEY'),
     )
