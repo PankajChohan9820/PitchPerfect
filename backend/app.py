@@ -1,8 +1,10 @@
+# app.py
+
 from flask import Flask, request, jsonify, stream_with_context, Response
 from helper import scraper, get_gpt, pdf_save
 from os import makedirs, path
 import json
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 with open('prompts.json', 'r') as file:
     # Load the JSON data into a Python dictionary
@@ -48,7 +50,7 @@ def scrape_url():
         result = get_gpt.askgpt(data['extract_role'] + str(result))
         my_resume = pdf_save.extract_pdf()
 
-        return Response(stream_with_context(get_gpt.generate( data['role_play'], my_resume, data['test_2'] + ' ' + result )))
+        return Response(stream_with_context(get_gpt.generate( data['role_play'], my_resume, data['test_2'] + ' ' + result )), content_type='text/plain')
         
     except Exception as e:
         response_data = {'status': 'error', 'message': str(e)}
@@ -107,7 +109,7 @@ def login_check():
         return jsonify(response_data), 500
 
 
-
+# handler = Mangum(app)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host = '0.0.0.0', port = 5000, debug = True)
