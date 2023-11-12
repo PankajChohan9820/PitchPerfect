@@ -12,12 +12,12 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
-with open('prompts.json', 'r') as file:
+with open('backend/prompts.json', 'r') as file:
     # Load the JSON data into a Python dictionary
     data = json.load(file)
 
 
-with open('mock_data.json', 'r') as file:
+with open('backend/mock_data.json', 'r') as file:
     # Load the JSON data into a Python dictionary
     mock_data = json.load(file)
 
