@@ -5,6 +5,12 @@ from helper import scraper, get_gpt, pdf_save
 from os import makedirs, path
 import json
 from flask_cors import CORS, cross_origin
+import sys
+import os
+
+# Add the parent directory of the backend folder to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 with open('prompts.json', 'r') as file:
     # Load the JSON data into a Python dictionary
