@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const GenerateButton = () => {
   const [pageUrl, setPageUrl] = useState('Hi');
@@ -6,42 +7,15 @@ const GenerateButton = () => {
   const [loading, setLoading] = useState(false);
 
   const callAPI = async () => {
-    
-    var tmpPromptResponse = '';
-    setCover(tmpPromptResponse)
     if (!pageUrl) {
       console.error('No URL available.');
-      tmpPromptResponse += 'NO URL AVAILABLE'
-      setCover(tmpPromptResponse)
       return;
     }
     try {
       setLoading(true); // Set loading to true before making the API call
-      const response = await fetch('http://127.0.0.1:5000/scrape' , {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          url: pageUrl,
-        }),
-      });
-      // eslint-disable-next-line no-undef
-      let decoder = new TextDecoderStream();
-      if (!response.body) return;
-      const reader = response.body
-        .pipeThrough(decoder)
-        .getReader();
-      while (true) {
-        var {value, done} = await reader.read();
-        
-        if (done) {
-          break;
-        } else {
-          tmpPromptResponse += value;
-          setCover(tmpPromptResponse);
-        }
-      }
+
+      const response = await axios.post('http://127.0.0.1:5000/scrape', { url: pageUrl });
+      setCover(response.data.data);
     } catch (error) {
       console.error('Error making API call:', error);
     } finally {

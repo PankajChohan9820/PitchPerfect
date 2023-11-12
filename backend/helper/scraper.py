@@ -3,17 +3,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from helper.drivers import get_webdriver
+import json
+
 
 
 def scrap_data(url):
+
     driver = get_webdriver()
     driver.get(url)
-
-    # Wait for the desired elements to load
-    # WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'strong')))
-    # WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, '//*')))
     WebDriverWait(driver, 10).until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-
 
     # Extract data directly using BeautifulSoup
     soup = BeautifulSoup(driver.page_source, 'html.parser')

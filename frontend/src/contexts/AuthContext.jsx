@@ -49,16 +49,24 @@ const authReducer = (state, action) => {
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
+  const hashPassword = async (password) => {
+    const saltRounds = 10;
+    return await password;
+  };
+
   const loginAsync = async (username, password) => {
     dispatch({ type: 'LOGIN_START' });
 
     try {
+      // Hash the password before sending it to the server
+      const hashedPassword = await hashPassword(password);
+
       const response = await fetch('http://127.0.0.1:5000/login-check', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password: hashedPassword }),
       });
 
       if (!response.ok) {
@@ -68,8 +76,8 @@ const AuthProvider = ({ children }) => {
       const user = await response.json();
       dispatch({ type: 'LOGIN_SUCCESS', payload: user });
 
-      // Store credentials in localStorage
-      localStorage.setItem('authCredentials', JSON.stringify({ username, password }));
+      // Store hashed credentials in localStorage
+      localStorage.setItem('authCredentials', JSON.stringify({ username, password: hashedPassword }));
     } catch (error) {
       dispatch({ type: 'LOGIN_FAILURE', payload: error.message });
     }
